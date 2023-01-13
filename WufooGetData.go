@@ -36,7 +36,15 @@ func call(url, method string) error {
 		log.Println("JSON parse error: ", error)
 		return error
 	}
-
-	log.Println("CSP Violation:", string(prettyJSON.String()))
+	var jsonResponse WufooResponse
+	json.Unmarshal(prettyJSON.Bytes(), &jsonResponse)
+	var usefulData = jsonResponse.Entries
+	processData(usefulData)
 	return nil
+}
+
+func processData(webData []WuFooData) {
+	for _, entry := range webData {
+		entry.prettyPrint()
+	}
 }
