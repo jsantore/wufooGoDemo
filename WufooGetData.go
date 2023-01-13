@@ -44,7 +44,6 @@ func call(url, method string) error {
 }
 
 func processData(webData []WuFooData) {
-	for _, entry := range webData {
-		entry.prettyPrint()
-	}
+	database := OpenDataBase("prototypeDB.db")
+	insertWufooData(database, webData)
 }
