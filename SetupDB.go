@@ -95,3 +95,28 @@ func insertWufooData(database *sql.DB, wufooData []WuFooData) {
 		}
 	}
 }
+
+func getData() []WuFooData {
+	db := OpenDataBase("prototypeDB.db")
+	var count int
+
+	err := db.QueryRow("SELECT COUNT(*) FROM WuFooData").Scan(&count)
+	if err != nil {
+		log.Println("Unable to get data")
+	}
+	data := make([]WuFooData, count)
+	selectStatement := "SELECT * FROM WuFooData"
+	wufooRows, err := db.Query(selectStatement)
+	defer wufooRows.Close()
+	rowNum := 0
+	for wufooRows.Next() {
+		currentItem := WuFooData{}
+		wufooRows.Scan(&currentItem.EntryID, &currentItem.Prefix, &currentItem.FirstName, &currentItem.LastName, &currentItem.Title, &currentItem.Org,
+			&currentItem.Email, &currentItem.Website, &currentItem.CourseProject, &currentItem.GuestSpeaker, &currentItem.SiteVisit, &currentItem.JobShadow,
+			&currentItem.Internship, &currentItem.CareerPanel, &currentItem.NetworkingEvent, &currentItem.SubjectArea, &currentItem.Description,
+			&currentItem.Funding, &currentItem.CreateDate, &currentItem.CreatedBy)
+		data[rowNum] = currentItem
+		rowNum++
+	}
+	return data
+}

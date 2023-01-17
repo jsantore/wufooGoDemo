@@ -10,9 +10,10 @@ import (
 	"time"
 )
 
-//this is a modification of https://golangbyexample.com/http-basic-auth-golang/
+// this is a modification of https://golangbyexample.com/http-basic-auth-golang/
 func main() {
 	call("https://jsantore.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json", "GET")
+	windowMain()
 }
 
 func call(url, method string) error {
